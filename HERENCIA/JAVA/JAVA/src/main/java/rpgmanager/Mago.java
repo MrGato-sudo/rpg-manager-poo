@@ -2,8 +2,6 @@ package rpgmanager;
 
 public class Mago extends Personaje {
 
-    private static final int COSTO_HECHIZO = 10;
-
     private int mana;
 
     public Mago(String nombre, int vidaMaxima, int fuerza, int mana) {
@@ -15,21 +13,53 @@ public class Mago extends Personaje {
         return mana;
     }
 
+    // Versión 1: ataque básico (sin gastar maná). Sobrescribe el de Personaje.
     @Override
     public void atacar(Personaje objetivo) {
-        if (!estaVivo()) {
-            super.atacar(objetivo); // reutiliza el mensaje de "está muerto"
+        super.atacar(objetivo);
+    }
+
+    // Versión 2: ataque con hechizo. Es una SOBRECARGA (método nuevo, sin @Override).
+    public void atacar(Personaje objetivo, String hechizo) {
+        if (hechizo == null || !estaVivo()) {
+            atacar(objetivo); // básico; si está muerto, el padre imprime el mensaje
             return;
         }
-        if (mana < COSTO_HECHIZO) {
-            System.out.println(getNombre() + " no tiene maná suficiente para lanzar un hechizo.");
+
+        int costo = costoDe(hechizo);
+        if (costo < 0) {
+            System.out.println(getNombre() + " no conoce el hechizo '" + hechizo + "'.");
             return;
         }
-        mana -= COSTO_HECHIZO;
-        int dano = getFuerza() * 2; // el hechizo pega el doble que un ataque normal
-        System.out.println(getNombre() + " lanza un hechizo a " + objetivo.getNombre()
+        if (mana < costo) {
+            System.out.println(getNombre() + " no tiene maná para '" + hechizo
+                    + "' (necesita " + costo + ", tiene " + mana + ").");
+            return;
+        }
+
+        mana -= costo;
+        int dano = (int) (getFuerza() * multiplicadorDe(hechizo));
+        System.out.println(getNombre() + " lanza " + hechizo + " a " + objetivo.getNombre()
                 + " y le causa " + dano + " de daño.");
         objetivo.recibirDano(dano);
+    }
+
+    private static int costoDe(String hechizo) {
+        switch (hechizo.toLowerCase()) {
+            case "chispa":        return 5;
+            case "rayo":          return 10;
+            case "bola de fuego": return 15;
+            default:              return -1; // hechizo desconocido
+        }
+    }
+
+    private static double multiplicadorDe(String hechizo) {
+        switch (hechizo.toLowerCase()) {
+            case "chispa":        return 1.5;
+            case "rayo":          return 2.0;
+            case "bola de fuego": return 3.0;
+            default:              return 0;
+        }
     }
 
     @Override

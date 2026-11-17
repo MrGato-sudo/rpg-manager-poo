@@ -1,18 +1,32 @@
 package rpgmanager;
 
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
-        Personaje heroe = new Personaje("Aria", 100, 15);
-        Personaje orco = new Personaje("Grok", 60, 20);
+        Guerrero guerrero = new Guerrero("Thorin", 120, 18, 8);
+        Mago mago = new Mago("Merlín", 70, 12, 25);
+        Arquero arquero = new Arquero("Legolas", 90, 14, 2);
 
-        heroe.atacar(orco);
-        orco.atacar(heroe);
-        System.out.println(heroe);
-        System.out.println(orco);
+        mago.atacar(guerrero);      // hechizo de 24, la armadura absorbe 8 -> recibe 16
+        arquero.atacar(guerrero);   // 14 - 8 -> recibe 6
+        guerrero.atacar(mago);
 
-        heroe.setVida(999);          // se limita a 100
-        System.out.println(heroe.getVida());
-        orco.recibirDano(500);       // se limita a 0
-        System.out.println(orco);    // Grok [0/60 HP] (muerto)
+        System.out.println(guerrero);
+        System.out.println(mago);
+        System.out.println(arquero);
+
+        // Recursos agotados
+        mago.atacar(arquero);       // 2.º hechizo, maná 5
+        mago.atacar(arquero);       // sin maná
+        arquero.atacar(mago);
+        arquero.atacar(mago);
+        arquero.atacar(mago);       // sin flechas
+
+        // Polimorfismo: una lista de Personaje con tres tipos distintos
+        List<Personaje> grupo = List.of(guerrero, mago, arquero);
+        for (Personaje p : grupo) {
+            System.out.println(p);  // cada uno ejecuta su propio toString()
+        }
     }
 }

@@ -13,9 +13,8 @@ class Mago(Personaje):
         self.mana = max(0, mana)
 
     def atacar(self, objetivo, hechizo=None):
-        # Un solo método: el comportamiento depende de si llega o no "hechizo"
         if hechizo is None or not self.esta_vivo():
-            super().atacar(objetivo)   # ataque básico heredado: sin maná
+            super().atacar(objetivo)
             return
 
         datos = self.HECHIZOS.get(hechizo.lower())
@@ -31,6 +30,10 @@ class Mago(Personaje):
         dano = int(self.fuerza * datos["multiplicador"])
         print(f"{self.nombre} lanza {hechizo} a {objetivo.nombre} y le causa {dano} de daño.")
         objetivo.recibir_dano(dano)
+
+    def habilidad_especial(self):      # NUEVO: Concentración arcana
+        self.mana += 15
+        print(f"{self.nombre} se concentra y recupera 15 de maná. Maná: {self.mana}")
 
     def __str__(self):
         return f"{super().__str__()} | Maná: {self.mana}"

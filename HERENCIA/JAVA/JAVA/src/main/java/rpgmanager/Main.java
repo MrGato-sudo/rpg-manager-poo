@@ -4,9 +4,20 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Main {
+    static void duelo(Combatiente a, Combatiente b) {
+        for (int ronda = 1; ronda <= 10; ronda++) {
+            System.out.println("--- Ronda " + ronda + " ---");
+            a.atacar(b);
+            if (!b.estaVivo()) break;
+            b.atacar(a);
+            if (!a.estaVivo()) break;
+    }
+        Combatiente ganador = a.estaVivo() ? a : b;
+        System.out.println("Ganador: " + ganador.getNombre());
+}
     public static void main(String[] args) {
         // ---------- Prueba 1: sobrecarga del Mago ----------
-        Personaje muneco = new Personaje("Muñeco", 500, 0);
+        Guerrero muneco = new Guerrero("Muñeco", 500, 0, 0);   // NUEVO: ya no new Personaje(...)
         Mago magoPrueba = new Mago("Merlín", 70, 12, 20);
 
         magoPrueba.atacar(muneco);                    // básico: 12 de daño, no gasta maná
@@ -28,10 +39,22 @@ public class Main {
         System.out.println(mago);
         System.out.println(arquero);
 
-        // ---------- Polimorfismo ----------
+        // ---------- NUEVO: habilidades especiales (polimorfismo) ----------
         List<Personaje> grupo = Arrays.asList(guerrero, mago, arquero);
         for (Personaje p : grupo) {
-            System.out.println(p);
+            p.habilidadEspecial();       // cada uno ejecuta la suya
         }
+
+        // Personaje p = new Personaje("Aldeano", 50, 5);
+        // ^ Si quitas el comentario, NO compila: "Personaje is abstract; cannot be instantiated"
+        // ---------- Reto 6: contrato Combatiente ----------
+        Monstruo goblin = new Monstruo("Goblin", 60, 10);
+
+        List<Combatiente> combatientes = Arrays.asList(guerrero, mago, arquero, goblin);
+            for (Combatiente c : combatientes) {
+        System.out.println(c.getNombre() + " vivo? " + c.estaVivo());
+}
+
+        duelo(new Guerrero("Thorin", 120, 18, 8), goblin);
     }
 }

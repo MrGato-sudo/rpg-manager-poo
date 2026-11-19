@@ -20,5 +20,9 @@ class Arquero(Personaje):
     def recoger_flechas(self, cantidad):
         self.flechas += max(0, cantidad)
 
+    def habilidad_especial(self):      # NUEVO: Recolectar flechas
+        self.recoger_flechas(5)
+        print(f"{self.nombre} recolecta 5 flechas. Flechas: {self.flechas}")
+
     def __str__(self):
         return f"{super().__str__()} | Flechas: {self.flechas}"

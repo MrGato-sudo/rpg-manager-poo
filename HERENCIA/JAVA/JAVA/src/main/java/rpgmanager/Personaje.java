@@ -1,6 +1,6 @@
 package rpgmanager;
 
-public class Personaje {
+public abstract class Personaje implements Combatiente {   // NUEVO: implements
 
     private String nombre;
     private int vidaMaxima;
@@ -11,10 +11,10 @@ public class Personaje {
         this.nombre = nombre;
         this.vidaMaxima = Math.max(1, vidaMaxima);
         this.fuerza = fuerza;
-        this.vida = this.vidaMaxima; // empieza con la vida completa
+        this.vida = this.vidaMaxima;
     }
 
-    // --- Getters ---
+    @Override                                              // NUEVO
     public String getNombre() {
         return nombre;
     }
@@ -31,25 +31,25 @@ public class Personaje {
         return fuerza;
     }
 
-    // --- Setter con validación (equivalente al @vida.setter de Python) ---
     public void setVida(int valor) {
-        // Nunca baja de 0 ni supera la vida máxima
         this.vida = Math.max(0, Math.min(valor, this.vidaMaxima));
     }
 
-    // --- Métodos básicos ---
+    @Override                                              // NUEVO
     public void recibirDano(int cantidad) {
         if (cantidad < 0) {
             throw new IllegalArgumentException("El daño no puede ser negativo");
         }
-        setVida(this.vida - cantidad); // pasa por el setter, no por this.vida
+        setVida(this.vida - cantidad);
     }
 
+    @Override                                              // NUEVO
     public boolean estaVivo() {
         return this.vida > 0;
     }
 
-    public void atacar(Personaje objetivo) {
+    @Override                                              // NUEVO
+    public void atacar(Combatiente objetivo) {             // antes: Personaje objetivo
         if (!estaVivo()) {
             System.out.println(nombre + " está muerto y no puede atacar.");
             return;
@@ -58,6 +58,8 @@ public class Personaje {
                 + " y le causa " + fuerza + " de daño.");
         objetivo.recibirDano(fuerza);
     }
+
+    public abstract void habilidadEspecial();
 
     @Override
     public String toString() {

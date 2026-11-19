@@ -13,16 +13,16 @@ public class Mago extends Personaje {
         return mana;
     }
 
-    // Versión 1: ataque básico (sin gastar maná). Sobrescribe el de Personaje.
+    // Versión 1: ataque básico (sobrescribe el de Personaje)
     @Override
-    public void atacar(Personaje objetivo) {
+    public void atacar(Combatiente objetivo) {
         super.atacar(objetivo);
     }
 
-    // Versión 2: ataque con hechizo. Es una SOBRECARGA (método nuevo, sin @Override).
-    public void atacar(Personaje objetivo, String hechizo) {
+    // Versión 2: ataque con hechizo (sobrecarga)
+    public void atacar(Combatiente objetivo, String hechizo) {
         if (hechizo == null || !estaVivo()) {
-            atacar(objetivo); // básico; si está muerto, el padre imprime el mensaje
+            atacar(objetivo);
             return;
         }
 
@@ -49,7 +49,7 @@ public class Mago extends Personaje {
             case "chispa":        return 5;
             case "rayo":          return 10;
             case "bola de fuego": return 15;
-            default:              return -1; // hechizo desconocido
+            default:              return -1;
         }
     }
 
@@ -60,6 +60,12 @@ public class Mago extends Personaje {
             case "bola de fuego": return 3.0;
             default:              return 0;
         }
+    }
+
+    @Override                          // NUEVO: Concentración arcana
+    public void habilidadEspecial() {
+        mana += 15;
+        System.out.println(getNombre() + " se concentra y recupera 15 de maná. Maná: " + mana);
     }
 
     @Override

@@ -13,5 +13,10 @@ class Guerrero(Personaje):
         print(f"{self.nombre} bloquea {cantidad - dano_real} de daño con su armadura.")
         super().recibir_dano(dano_real)
 
+    def habilidad_especial(self):      # NUEVO: Grito de guerra
+        self.armadura += 3
+        self.vida += 10
+        print(f"{self.nombre} lanza su grito de guerra. Armadura: {self.armadura}, vida: {self.vida}")
+
     def __str__(self):
         return f"{super().__str__()} | Armadura: {self.armadura}"

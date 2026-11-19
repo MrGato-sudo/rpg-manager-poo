@@ -24,6 +24,14 @@ public class Guerrero extends Personaje {
         super.recibirDano(danoReal);
     }
 
+    @Override                          // NUEVO: Grito de guerra
+    public void habilidadEspecial() {
+        armadura += 3;
+        setVida(getVida() + 10);
+        System.out.println(getNombre() + " lanza su grito de guerra. Armadura: "
+                + armadura + ", vida: " + getVida());
+    }
+
     @Override
     public String toString() {
         return super.toString() + " | Armadura: " + armadura;

@@ -14,7 +14,7 @@ public class Arquero extends Personaje {
     }
 
     @Override
-    public void atacar(Personaje objetivo) {
+public void atacar(Combatiente objetivo) {      // antes: Personaje objetivo
         if (!estaVivo()) {
             super.atacar(objetivo);
             return;
@@ -31,6 +31,12 @@ public class Arquero extends Personaje {
 
     public void recogerFlechas(int cantidad) {
         flechas += Math.max(0, cantidad);
+    }
+
+    @Override                          // NUEVO: Recolectar flechas
+    public void habilidadEspecial() {
+        recogerFlechas(5);
+        System.out.println(getNombre() + " recolecta 5 flechas. Flechas: " + flechas);
     }
 
     @Override

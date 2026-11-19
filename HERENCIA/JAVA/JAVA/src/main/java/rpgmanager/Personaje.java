@@ -6,12 +6,14 @@ public abstract class Personaje implements Combatiente {   // NUEVO: implements
     private int vidaMaxima;
     private int vida;
     private int fuerza;
+    private final Inventario inventario;
 
     public Personaje(String nombre, int vidaMaxima, int fuerza) {
         this.nombre = nombre;
         this.vidaMaxima = Math.max(1, vidaMaxima);
         this.fuerza = fuerza;
         this.vida = this.vidaMaxima;
+        this.inventario = new Inventario();
     }
 
     @Override                                              // NUEVO
@@ -29,6 +31,10 @@ public abstract class Personaje implements Combatiente {   // NUEVO: implements
 
     public int getFuerza() {
         return fuerza;
+    }
+    
+    public Inventario getInventario() {
+        return inventario;
     }
 
     public void setVida(int valor) {

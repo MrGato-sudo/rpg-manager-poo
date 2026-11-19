@@ -2,6 +2,8 @@ from personaje import Personaje
 from guerrero import Guerrero
 from mago import Mago
 from arquero import Arquero
+from item import Item
+from mision import Mision
 
 # ---------- Prueba 1: sobrecarga simulada del Mago ----------
 muneco = Guerrero("Muñeco", 500, 0, armadura=0)   # NUEVO: ya no se puede usar Personaje

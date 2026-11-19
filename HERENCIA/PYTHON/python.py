@@ -1,10 +1,12 @@
 from abc import ABC, abstractmethod   # NUEVO
+from inventario import Inventario
 
 
 class Personaje(ABC):                 # NUEVO: hereda de ABC
     def __init__(self, nombre, vida_maxima, fuerza):
         self.nombre = nombre
         self.__vida_maxima = max(1, vida_maxima)
+        self.__inventario = Inventario()
         self.fuerza = fuerza
         self.__vida = self.__vida_maxima
 
@@ -19,6 +21,10 @@ class Personaje(ABC):                 # NUEVO: hereda de ABC
     @property
     def vida_maxima(self):
         return self.__vida_maxima
+    
+    @property
+    def inventario(self):
+        return self.__inventario
 
     def recibir_dano(self, cantidad):
         if cantidad < 0:
